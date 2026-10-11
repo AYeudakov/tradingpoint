@@ -1,0 +1,32 @@
+name: bitcoin-prices
+
+services:
+  bitcoin-prices-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: bitcoin-prices-api:local
+    ports:
+      - "8080:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_HTTP_PORTS: 8080
+      ConnectionStrings__Prices: Data Source=/data/bitcoin-prices.db
+    volumes:
+      - bitcoin-prices-data:/data
+    restart: unless-stopped
+
+  bitcoin-prices-web:
+    build:
+      context: ./src/BitcoinPrices.Web
+      dockerfile: Dockerfile
+    image: bitcoin-prices-web:local
+    ports:
+      - "3000:80"
+    depends_on:
+      - bitcoin-prices-api
+    restart: unless-stopped
+
+volumes:
+  bitcoin-prices-data:
+    name: test_bitcoin-prices-data
