@@ -1,6 +1,6 @@
 # Bitcoin Prices
 
-Built with .NET 10 and React.
+Built with .NET 10 and React (just decided to play with React).
 
 ## Run with Docker
 
